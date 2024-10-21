@@ -1,5 +1,5 @@
 module SolidErrors
-  class ErrorsController < ApplicationController
+  class ErrorsController < SolidErrors.base_controller_class.constantize
     around_action :force_english_locale!
 
     before_action :set_error, only: %i[show update destroy]

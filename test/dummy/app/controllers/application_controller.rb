@@ -1,2 +1,2 @@
-class ApplicationController < ActionController::Base
+class ApplicationController < SolidErrors.base_controller_class.constantize
 end

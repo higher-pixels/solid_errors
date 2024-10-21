@@ -1,5 +1,6 @@
 module SolidErrors
-  class ApplicationController < ActionController::Base
+  # class ApplicationController < ActionController::Base
+  class ApplicationController < SolidErrors.base_controller_class.constantize
     protect_from_forgery with: :exception
 
     http_basic_authenticate_with name: SolidErrors.username, password: SolidErrors.password if SolidErrors.password

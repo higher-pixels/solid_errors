@@ -12,6 +12,7 @@ module SolidErrors
   mattr_writer :send_emails
   mattr_writer :email_from
   mattr_writer :email_to
+  mattr_accessor :base_controller_class, default: "::ActionController::Base"
 
   class << self
     # use method instead of attr_accessor to ensure
