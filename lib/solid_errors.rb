@@ -21,8 +21,6 @@ module SolidErrors
       @username ||= ENV["SOLIDERRORS_USERNAME"] || @@username
     end
 
-    # use method instead of attr_accessor to ensure
-    # this works if variable set after SolidErrors is loaded
     def password
       @password ||= ENV["SOLIDERRORS_PASSWORD"] || @@password
     end
