@@ -30,10 +30,15 @@ module SolidErrors
     end
 
     def destroy_records
-      oldest_datetime = SolidErrors.destroy_after.ago
       ActiveRecord::Base.transaction do
-        SolidErrors::Occurrence.where(created_at: ...oldest_datetime).delete_all
-        SolidErrors::Error.resolved.where.missing(:occurrences).delete_all
+        SolidErrors::Occurrence.joins(:error)
+                               .merge(SolidErrors::Error.resolved)
+                               .where(created_at: ...SolidErrors.destroy_after.ago)
+                               .delete_all
+        SolidErrors::Error.resolved
+                          .where
+                          .missing(:occurrences)
+                          .delete_all
       end
     end
   end
