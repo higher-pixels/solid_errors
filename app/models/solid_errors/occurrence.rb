@@ -3,7 +3,7 @@ module SolidErrors
     belongs_to :error, class_name: "SolidErrors::Error"
 
     after_create_commit :send_email, if: -> { SolidErrors.send_emails? && SolidErrors.email_to.present? }
-    after_create_commit :destroy_records, if: -> { SolidErrors.delete_after.present? && destroy_after_last_create? }
+    after_create_commit :destroy_records, if: -> { SolidErrors.destroy_after.present? && destroy_after_last_create? }
 
     # The parsed exception backtrace. Lines in this backtrace that are from installed gems
     # have the base path for gem installs replaced by "[GEM_ROOT]", while those in the project
@@ -30,7 +30,7 @@ module SolidErrors
     end
 
     def destroy_records
-      oldest_datetime = SolidErrors.delete_after.ago
+      oldest_datetime = SolidErrors.destroy_after.ago
       ActiveRecord::Base.transaction do
         SolidErrors::Occurrence.where(created_at: ...oldest_datetime).delete_all
         SolidErrors::Error.resolved.where.missing(:occurrences).delete_all
